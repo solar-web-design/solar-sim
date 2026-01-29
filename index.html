@@ -216,7 +216,7 @@
             position: relative;
             height: 200px;
             width: 100%;
-            max-width: 1000px;
+            max-width: 1200px;
             /* Increased to allow wider spread */
             margin-top: 3rem;
             perspective: 1000px;
@@ -236,25 +236,32 @@
 
         .card-1 {
             top: 20px;
-            left: 0%;
-            /* Moved to edge */
+            left: 2%;
             transform: rotate(-5deg);
             animation: float-card 6s ease-in-out infinite;
         }
 
         .card-2 {
             top: 0px;
-            left: 50%;
-            transform: translateX(-50%) rotate(2deg);
+            left: 26%;
+            transform: rotate(2deg);
             z-index: 10;
             animation: float-card 7s ease-in-out infinite reverse;
         }
 
         .card-3 {
             top: 20px;
-            right: -5%;
-            transform: rotate(5deg);
+            left: 50%;
+            transform: rotate(-3deg);
+            z-index: 5;
             animation: float-card 8s ease-in-out infinite 1s;
+        }
+
+        .card-4 {
+            top: 10px;
+            left: 74%;
+            transform: rotate(5deg);
+            animation: float-card 7.5s ease-in-out infinite 0.5s;
         }
 
         @keyframes float-card {
@@ -584,7 +591,8 @@
 
             .card-1,
             .card-2,
-            .card-3 {
+            .card-3,
+            .card-4 {
                 transform: none !important;
             }
 
@@ -747,7 +755,7 @@
 
     <main class="hero">
         <h1>Solar Power Simulation </h1>
-        <p>이제 가상 태양광 발전소를 구축하고, 발전량을 산출하고,캐쉬플로우를 작성하고 태양광사업을 시작하세요!</p>
+        <p>이제 가상 태양광 발전소를 구축하고, 발전량을 산출하고, 캐쉬플로우를 작성하고 태양광발전사업을 시작하세요!</p>
 
         <!-- Market Price Dashboard -->
         <div class="market-dashboard"
@@ -784,15 +792,19 @@
         <div class="float-container">
             <div class="card card-1" style="--r: -5deg">
                 <h3>발전용량산출</h3>
-                <p>실제지적도를 사용하여 발전용량을 산출합니다.</p>
+                <p>실제 지적도를 사용하여 모듈을 배치하고, 발전용량을 산출 합니다.</p>
             </div>
             <div class="card card-2" style="--r: 2deg">
                 <h3>캐쉬플로우 작성</h3>
-                <p>발전용량을 근거로 캐쉬플로우를 작성합니다.</p>
+                <p>연간 시스템발전량을 근거로 캐쉬플로우를 작성합니다.</p>
             </div>
-            <div class="card card-3" style="--r: 5deg">
+            <div class="card card-3" style="--r: -3deg">
                 <h3>발전사업허가</h3>
-                <p>사업계획서와 배치도를 작성하고 발전사업허가를 진행합니다.</p>
+                <p>발전사업허가에 필요한 사업계획서와 배치도를 작성하고 사업허가를 진행합니다.</p>
+            </div>
+            <div class="card card-4" style="--r: 5deg">
+                <h3>음영분석</h3>
+                <p>발전소 주변건물을 가상공간에 설치하고 음영에 영향받는 발전량을 계산합니다.</p>
             </div>
         </div>
     </main>
@@ -892,6 +904,11 @@
     <section id="contact" class="content-section">
         <h2>Contact Us</h2>
         <p>Get in touch to start your own solar project today.</p>
+        <div style="margin-top: 2rem; font-size: 1.1rem; color: rgba(255, 255, 255, 0.9);">
+            <p style="margin-bottom: 0.5rem;">대표전화 : <span style="color: var(--accent-secondary);">0507-1475-9952</span>
+            </p>
+            <p>이메일주소 : <span style="color: var(--accent-secondary);">sk_rosesgun@naver.com</span></p>
+        </div>
     </section>
 
     <!-- Contact Form Modal -->
