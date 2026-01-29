@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antigravity | Defying Expectations</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&family=Outfit:wght@300;500;800&display=swap"
+        rel="stylesheet">
+
+    <!-- EmailJS SDK (Add this!) -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function () {
+            // 중요: 여기에 본인의 EmailJS Public Key를 입력해야 합니다.
+            // EmailJS 대시보드 -> Account -> General -> Public Key 복사
+            // 예: emailjs.init("user_xxxxxxxxxxxx");
+            emailjs.init("9pSEJ9EJ4Pbogl_-8");
+        })();
+    </script>
+
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* --- Reset & Variables --- */
+        :root {
+            --bg-color: #050505;
+            --text-color: #ffffff;
+            --accent-primary: #8a2be2;
+            --accent-secondary: #00d4ff;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --font-main: 'Inter', sans-serif;
+            --font-display: 'Outfit', sans-serif;
+            --input-bg: rgba(255, 255, 255, 0.1);
+            --error-color: #ff4757;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- Background Effects --- */
+        .bg-gradient-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.6;
+            animation: float-orb 10s infinite ease-in-out alternate;
+        }
+
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--accent-primary);
+            top: -100px;
+            left: -100px;
+        }
+
+        .orb-2 {
+            width: 300px;
+            height: 300px;
+            background: var(--accent-secondary);
+            bottom: -50px;
+            right: -50px;
+            animation-delay: -5s;
+        }
+
+        @keyframes float-orb {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            100% {
+                transform: translate(30px, 50px);
+            }
+        }
+
+        /* --- Typography & Utilities --- */
+        h1,
+        h2,
+        h3 {
+            font-family: var(--font-display);
+            font-weight: 800;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.3s;
+        }
+
+        /* --- Navigation --- */
+        nav {
+            padding: 2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background: linear-gradient(45deg, var(--accent-secondary), var(--accent-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-secondary);
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-secondary);
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+            z-index: 101;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            transition: all 0.3s ease;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 5rem 1rem;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 10vw, 6rem);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            animation: fade-in-up 1s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 600px;
+            margin-bottom: 3rem;
+            animation: fade-in-up 1s ease-out 0.2s backwards;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 1.1rem;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            animation: fade-in-up 1s ease-out 0.4s backwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(138, 43, 226, 0.3);
+        }
+
+        /* Floating Element Animation */
+        .float-container {
+            position: relative;
+            height: 200px;
+            width: 100%;
+            max-width: 1000px;
+            /* Increased to allow wider spread */
+            margin-top: 3rem;
+            perspective: 1000px;
+        }
+
+        .card {
+            position: absolute;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 2rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            width: 250px;
+            transition: transform 0.1s ease-out;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .card-1 {
+            top: 20px;
+            left: 0%;
+            /* Moved to edge */
+            transform: rotate(-5deg);
+            animation: float-card 6s ease-in-out infinite;
+        }
+
+        .card-2 {
+            top: 0px;
+            left: 50%;
+            transform: translateX(-50%) rotate(2deg);
+            z-index: 10;
+            animation: float-card 7s ease-in-out infinite reverse;
+        }
+
+        .card-3 {
+            top: 20px;
+            right: -5%;
+            transform: rotate(5deg);
+            animation: float-card 8s ease-in-out infinite 1s;
+        }
+
+        @keyframes float-card {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(var(--r, 0deg));
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(var(--r, 0deg));
+            }
+        }
+
+        .card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent-secondary);
+        }
+
+        .card p {
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+
+        /* --- Content Sections --- */
+        .content-section {
+            padding: 6rem 1rem;
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .content-section h2 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .content-section p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 600px;
+        }
+
+        /* --- Footer --- */
+        footer {
+            padding: 2rem;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 0.9rem;
+        }
+
+        @keyframes fade-in-up {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mouse Follow Effect */
+        .cursor-glow {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0) 70%);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: screen;
+            transition: opacity 0.3s;
+        }
+
+        /* --- Modal Styles --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal {
+            background: rgba(20, 20, 20, 0.8);
+            border: 1px solid var(--glass-border);
+            padding: 2.5rem;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0);
+        }
+
+        .modal h2 {
+            margin-bottom: 1.5rem;
+            color: var(--accent-secondary);
+            font-size: 1.8rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--input-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            color: white;
+            font-family: var(--font-main);
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s, background 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: var(--accent-secondary);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Validation Error Message Style */
+        .error-message {
+            color: var(--error-color);
+            font-size: 0.8rem;
+            margin-top: 0.3rem;
+            opacity: 0;
+            transform: translateY(-5px);
+            transition: all 0.3s;
+            display: block;
+            height: 0;
+            /* hidden initially */
+            overflow: hidden;
+        }
+
+        .form-group.error input {
+            border-color: var(--error-color);
+        }
+
+        .form-group.error .error-message {
+            opacity: 1;
+            transform: translateY(0);
+            height: auto;
+            margin-top: 0.5rem;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn-cancel {
+            padding: 0.8rem 1.5rem;
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            font-family: var(--font-main);
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+
+        .btn-cancel:hover {
+            color: white;
+        }
+
+        .btn-submit {
+            padding: 0.8rem 2rem;
+            background: var(--accent-primary);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(138, 43, 226, 0.4);
+        }
+
+        .btn-submit:disabled {
+            background: #555;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .close-icon {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-icon:hover {
+            color: white;
+        }
+
+        /* --- Mobile Responsiveness --- */
+        @media screen and (max-width: 768px) {
+
+            /* Nav */
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: 0;
+                height: 100vh;
+                width: 70%;
+                background: rgba(0, 0, 0, 0.95);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 3rem;
+                transform: translateX(100%);
+                transition: transform 0.4s ease-in-out;
+                z-index: 100;
+                border-left: 1px solid var(--glass-border);
+            }
+
+            .nav-links.active {
+                transform: translateX(0);
+            }
+
+            .nav-links a {
+                font-size: 1.5rem;
+            }
+
+            /* Hamburger animation when active */
+            .hamburger.active span:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active span:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+
+            /* Hero & Cards */
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .float-container {
+                height: auto;
+                margin-top: 3rem;
+                display: flex;
+                flex-direction: column;
+                gap: 1.5rem;
+                align-items: center;
+            }
+
+            .card {
+                position: relative;
+                top: auto !important;
+                left: auto !important;
+                right: auto !important;
+                transform: none !important;
+                width: 100%;
+                max-width: 350px;
+                animation: none;
+                /* Disable float animation on mobile for stability */
+            }
+
+            .card-1,
+            .card-2,
+            .card-3 {
+                transform: none !important;
+            }
+
+            /* Buttons & Touch Targets */
+            .cta-button {
+                padding: 1.2rem 3rem;
+                width: 80%;
+                max-width: 300px;
+            }
+
+            .form-group input {
+                padding: 1rem;
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Ambient Background -->
+    <div class="bg-gradient-orb orb-1"></div>
+    <div class="bg-gradient-orb orb-2"></div>
+    <div class="cursor-glow" id="cursor-glow"></div>
+
+    <nav>
+        <div class="logo">가상발전소 시뮬레이션</div>
+
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <div class="nav-links">
+            <a href="#about">About</a>
+            <a href="#work">Work</a>
+            <a href="#review">Review</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <main class="hero">
+        <h1>Solar Power Simulation Pvsyst 8.0</h1>
+        <p>이제 가상 태양광 발전소를 구축하고, 발전량을 산출하고,캐쉬플로우를 작성하고 태양광사업을 시작하세요!</p>
+
+        <!-- Market Price Dashboard -->
+        <div class="market-dashboard"
+            style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem;">
+            <!-- SMP Display -->
+            <div id="smp-display-container"
+                style="background: rgba(255, 255, 255, 0.1); padding: 1rem 1.5rem; border-radius: 12px; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); display: flex; align-items: center; gap: 1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); min-width: 280px;">
+                <div style="text-align: left;">
+                    <span
+                        style="display: block; font-size: 0.8rem; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 1px;">SMP
+                        (Today)</span>
+                    <span id="smp-price" style="font-size: 1.5rem; font-weight: 700; color: #00d4ff;">Loading...</span>
+                    <span style="font-size: 0.9rem; color: rgba(255,255,255,0.5);"> KRW/kWh</span>
+                </div>
+                <div style="font-size: 2rem; opacity: 0.2; margin-left: auto;">⚡</div>
+            </div>
+
+            <!-- REC Display -->
+            <div id="rec-display-container"
+                style="background: rgba(255, 255, 255, 0.1); padding: 1rem 1.5rem; border-radius: 12px; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); display: flex; align-items: center; gap: 1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); min-width: 280px;">
+                <div style="text-align: left;">
+                    <span
+                        style="display: block; font-size: 0.8rem; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 1px;">REC
+                        (Spot)</span>
+                    <span id="rec-price" style="font-size: 1.5rem; font-weight: 700; color: #8a2be2;">Loading...</span>
+                    <span style="font-size: 0.9rem; color: rgba(255,255,255,0.5);"> KRW/REC</span>
+                </div>
+                <div style="font-size: 2rem; opacity: 0.2; margin-left: auto;">🌿</div>
+            </div>
+        </div>
+
+        <a href="#" class="cta-button" id="start-sim-btn">Start Simulation</a>
+
+        <div class="float-container">
+            <div class="card card-1" style="--r: -5deg">
+                <h3>발전용량산출</h3>
+                <p>실제지적도를 사용하여 발전용량을 산출합니다.</p>
+            </div>
+            <div class="card card-2" style="--r: 2deg">
+                <h3>캐쉬플로우 작성</h3>
+                <p>발전용량을 근거로 캐쉬플로우를 작성합니다.</p>
+            </div>
+            <div class="card card-3" style="--r: 5deg">
+                <h3>발전사업허가</h3>
+                <p>사업계획서와 배치도를 작성하고 발전사업허가를 진행합니다.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- New Content Sections -->
+    <section id="about" class="content-section">
+        <h2>About Us</h2>
+        <p>We are defying expectations with sustainable energy solutions.</p>
+    </section>
+
+    <section id="work" class="content-section">
+        <h2>Our Work</h2>
+        <p>Explore our latest solar simulation projects and case studies.</p>
+    </section>
+
+    <section id="review" class="content-section">
+        <h2>Reviews</h2>
+        <p>See what our clients say about our precision and efficiency.</p>
+    </section>
+
+    <section id="contact" class="content-section">
+        <h2>Contact Us</h2>
+        <p>Get in touch to start your own solar project today.</p>
+    </section>
+
+    <!-- Contact Form Modal -->
+    <div class="modal-overlay" id="contact-modal">
+        <div class="modal">
+            <button class="close-icon" id="close-modal-x">&times;</button>
+            <h2>Customer Info</h2>
+            <!-- Updated form with validation and no default submission -->
+            <form id="simulation-form" novalidate>
+                <div class="form-group" id="group-name">
+                    <label for="name">고객명 (Name)</label>
+                    <input type="text" id="name" name="name" placeholder="홍길동">
+                    <span class="error-message">고객님의 성함을 입력해 주세요.</span>
+                </div>
+                <div class="form-group" id="group-address">
+                    <label for="address">사업부지주소 (Site Address)</label>
+                    <input type="text" id="address" name="address" placeholder="서울시 강남구...">
+                    <span class="error-message">사업 부지 주소를 자세히 적어주세요.</span>
+                </div>
+                <div class="form-group" id="group-email">
+                    <label for="email">이메일주소 (Email)</label>
+                    <input type="email" id="email" name="email" placeholder="example@email.com">
+                    <span class="error-message">올바른 이메일 형식이 아닙니다.</span>
+                </div>
+                <div class="form-group" id="group-contact">
+                    <label for="contact">연락처 (Contact)</label>
+                    <input type="tel" id="contact" name="contact" placeholder="010-1234-5678">
+                    <span class="error-message">연락처를 입력해 주세요. (하이픈 포함 권장)</span>
+                </div>
+                <div class="modal-buttons">
+                    <button type="button" class="btn-cancel" id="close-modal-btn">Cancel</button>
+                    <button type="submit" class="btn-submit" id="submit-btn">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 Antigravity Project. Created with AI.
+    </footer>
+
+    <script>
+        // Custom Cursor Glow Effect
+        const cursorGlow = document.getElementById('cursor-glow');
+
+        document.addEventListener('mousemove', (e) => {
+            cursorGlow.style.left = e.clientX + 'px';
+            cursorGlow.style.top = e.clientY + 'px';
+        });
+
+        document.addEventListener('mouseleave', () => {
+            cursorGlow.style.opacity = '0';
+        });
+
+        document.addEventListener('mouseenter', () => {
+            cursorGlow.style.opacity = '1';
+        });
+
+        // Parallax Effect for Cards on Mouse Move
+        const cards = document.querySelectorAll('.card');
+        const container = document.querySelector('.hero');
+
+        container.addEventListener('mousemove', (e) => {
+            const x = (window.innerWidth / 2 - e.clientX) / 25;
+            const y = (window.innerHeight / 2 - e.clientY) / 25;
+
+            cards.forEach((card, index) => {
+                const speed = (index + 1) * 0.5; // Different speeds for depth
+                card.style.transform = `translate(${x * speed}px, ${y * speed}px) rotate(${card.style.getPropertyValue('--r')})`;
+            });
+        });
+
+        // Reset positions on mouse leave
+        container.addEventListener('mouseleave', () => {
+            cards.forEach((card) => {
+                card.style.transform = `translate(0, 0) rotate(${card.style.getPropertyValue('--r')})`;
+            });
+        });
+
+        // Reset positions on mouse leave
+        container.addEventListener('mouseleave', () => {
+            cards.forEach((card) => {
+                if (window.innerWidth > 768) { // Only reset if not mobile
+                    card.style.transform = `translate(0, 0) rotate(${card.style.getPropertyValue('--r')})`;
+                }
+            });
+        });
+
+        // --- Hamburger Menu Logic ---
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        const links = document.querySelectorAll('.nav-links a');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        });
+
+        // Close menu when a link is clicked
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                hamburger.classList.remove('active');
+            });
+        });
+
+        // --- Modal Logic & Validation ---
+        const modal = document.getElementById('contact-modal');
+        const startBtn = document.getElementById('start-sim-btn');
+        const closeBtn = document.getElementById('close-modal-btn');
+        const closeX = document.getElementById('close-modal-x');
+        const form = document.getElementById('simulation-form');
+        const submitBtn = document.getElementById('submit-btn');
+
+        function openModal(e) {
+            e.preventDefault();
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            // Optional: Clear form on close
+            // form.reset();
+            // document.querySelectorAll('.form-group').forEach(g => g.classList.remove('error'));
+        }
+
+        startBtn.addEventListener('click', openModal);
+        closeBtn.addEventListener('click', closeModal);
+        closeX.addEventListener('click', closeModal);
+
+        // Close when clicking outside
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Validation & Submission
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            let isValid = true;
+
+            // 1. Name Validation
+            const name = document.getElementById('name');
+            const groupName = document.getElementById('group-name');
+            if (name.value.trim() === '') {
+                groupName.classList.add('error');
+                isValid = false;
+            } else {
+                groupName.classList.remove('error');
+            }
+
+            // 2. Address Validation
+            const address = document.getElementById('address');
+            const groupAddress = document.getElementById('group-address');
+            if (address.value.trim() === '') {
+                groupAddress.classList.add('error');
+                isValid = false;
+            } else {
+                groupAddress.classList.remove('error');
+            }
+
+            // 3. Email Validation
+            const email = document.getElementById('email');
+            const groupEmail = document.getElementById('group-email');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email.value.trim())) {
+                groupEmail.classList.add('error');
+                isValid = false;
+            } else {
+                groupEmail.classList.remove('error');
+            }
+
+            // 4. Contact Validation
+            const contact = document.getElementById('contact');
+            const groupContact = document.getElementById('group-contact');
+            if (contact.value.trim() === '') {
+                groupContact.classList.add('error');
+                isValid = false;
+            } else {
+                groupContact.classList.remove('error');
+            }
+
+            if (isValid) {
+                // Change button state
+                const originalBtnText = submitBtn.innerText;
+                submitBtn.innerText = 'Sending...';
+                submitBtn.disabled = true;
+
+                // Prepare EmailJS params
+                // Note: You need to set up an Email Template in EmailJS dashboard
+                // with variables: {{name}}, {{address}}, {{email}}, {{contact}}
+                const templateParams = {
+                    name: document.getElementById('name').value,      // 고객명 -> name
+                    address: document.getElementById('address').value, // 사업부지주소 -> address
+                    email: document.getElementById('email').value,     // 이메일주소 -> email
+                    contact: document.getElementById('contact').value, // 연락처 -> contact
+                    to_email: 'skseo@inms.co.kr'
+                };
+
+                // Send Email
+                // Replace 'YOUR_SERVICE_ID' and 'YOUR_TEMPLATE_ID' with actual IDs from EmailJS
+                emailjs.send('service_0qd6bdt', 'template_xfnkq7o', templateParams)
+                    .then(function (response) {
+                        alert('성공적으로 접수되었습니다! 곧 연락드리겠습니다.');
+                        closeModal();
+                        form.reset();
+                    }, function (error) {
+                        console.error('FAILED...', error);
+                        alert('전송에 실패했습니다. Public Key나 Service ID를 확인해주세요.\n(개발자 도구 콘솔에서 에러 로그 확인 가능)');
+                    })
+                    .finally(() => {
+                        submitBtn.innerText = originalBtnText;
+                        submitBtn.disabled = false;
+                    });
+            }
+        });
+
+        // Remove error on input
+        const inputs = form.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('input', function () {
+                const group = this.closest('.form-group');
+                group.classList.remove('error');
+            });
+        });
+
+        // --- Market Price API Integration (SMP & REC) ---
+        window.smpPrice = 0;
+        window.recPrice = 0;
+
+        // 공공데이터포털 API Key (실제 키가 있어야 작동, 없으면 Fallback 데이터 사용)
+        const OPEN_API_KEY = 'YOUR_SERVICE_KEY_required';
+
+        async function fetchMarketData() {
+            // 1. Fetch SMP
+            fetchSMP();
+            // 2. Fetch REC
+            fetchREC();
+        }
+
+        async function fetchSMP() {
+            // 날짜 계산 (2일 전)
+            const date = new Date();
+            date.setDate(date.getDate() - 2);
+            const dateStr = getDateString(date);
+
+            // URL: 전력거래소_계통한계가격 정보
+            const apiUrl = `https://apis.data.go.kr/B190017/service/GetSmpInfoService/getSmpInfoList?serviceKey=${OPEN_API_KEY}&pageNo=1&numOfRows=1&smpDate=${dateStr}&_type=json`;
+
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) throw new Error("Network response was not ok");
+                const data = await response.json();
+
+                const items = data.response?.body?.items?.item;
+                const realPrice = Array.isArray(items) ? items[0].smp : items?.smp;
+
+                if (realPrice) {
+                    window.smpPrice = parseFloat(realPrice);
+                    console.log(`SMP Fetch Success: ${window.smpPrice}`);
+                } else {
+                    throw new Error("Invalid Data Structure");
+                }
+            } catch (error) {
+                console.warn("SMP API Fail/CORS -> Using Mock Data");
+                window.smpPrice = 145.32; // Fallback
+            }
+            updatePriceDisplay('smp-price', window.smpPrice);
+        }
+
+        async function fetchREC() {
+            // 날짜 계산 (REC는 매주 화/목 개설되므로 최근 데이터 찾기가 까다로울 수 있음. 
+            // 여기서는 단순히 최근 거래일자 조회 API라고 가정하거나 Mock up 처리)
+            // 실제 API: 전력거래소_REC현물시장 정보
+
+            // NOTE: REC API는 보통 별도의 Endpoint를 가짐. 예시 URL 사용.
+            // https://apis.data.go.kr/B190017/service/GetRecSpotMarketInfoService/getRecSpotMarketInfoList
+
+            // 여기서는 데모를 위해 바로 Fallback으로 처리하거나 시도 로직 구현
+            try {
+                // Mock API call to demonstrate structure
+                // const response = await fetch(`...&serviceKey=${OPEN_API_KEY}...`);
+                // ... parsing logic ...
+                throw new Error("REC API Not Implemented yet");
+            } catch (error) {
+                console.warn("REC API Fail/CORS -> Using Mock Data");
+                window.recPrice = 72000; // Fallback (72,000 KRW)
+            }
+            updatePriceDisplay('rec-price', window.recPrice);
+        }
+
+        function getDateString(date) {
+            const yyyy = date.getFullYear();
+            const mm = String(date.getMonth() + 1).padStart(2, '0');
+            const dd = String(date.getDate()).padStart(2, '0');
+            return `${yyyy}${mm}${dd}`;
+        }
+
+        function updatePriceDisplay(elementId, targetPrice) {
+            const display = document.getElementById(elementId);
+            if (!display) return;
+
+            let currentVal = 0;
+            const duration = 1500;
+            const startTime = performance.now();
+
+            function animate(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const ease = 1 - Math.pow(1 - progress, 4);
+
+                const val = currentVal + (targetPrice - currentVal) * ease;
+
+                // REC는 정수 단위가 깔끔하고, SMP는 소수점 2자리
+                if (elementId === 'rec-price') {
+                    display.innerText = Math.round(val).toLocaleString();
+                } else {
+                    display.innerText = val.toFixed(2);
+                }
+
+                if (progress < 1) {
+                    requestAnimationFrame(animate);
+                } else {
+                    if (elementId === 'rec-price') {
+                        display.innerText = Math.round(targetPrice).toLocaleString();
+                    } else {
+                        display.innerText = targetPrice.toFixed(2);
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+
+        // 페이지 로드 시 실행
+        fetchMarketData();
+    </script>
+</body>
+
+</html>
