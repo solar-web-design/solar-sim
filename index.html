@@ -1424,6 +1424,27 @@
             fetchREC();
         }
 
+        // Helper: Fetch with Proxy Fallback mechanism for Mobile/Network reliability
+        async function fetchWithProxy(targetUrl) {
+            const proxies = [
+                // Primary: corsproxy.io (Fast, reliable)
+                (url) => `https://corsproxy.io/?${encodeURIComponent(url)}`,
+                // Secondary: allorigins.win (Fallback)
+                (url) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`
+            ];
+
+            for (const generator of proxies) {
+                try {
+                    const proxyUrl = generator(targetUrl);
+                    const response = await fetch(proxyUrl, { referrerPolicy: 'no-referrer' });
+                    if (response.ok) return response;
+                } catch (e) {
+                    console.warn("Proxy attempt failed, trying next...", e);
+                }
+            }
+            throw new Error("All proxies failed");
+        }
+
         window.smpDataListLand = [];
         window.smpDataListJeju = [];
         window.currentSmpRegion = 'land';
@@ -1441,13 +1462,12 @@
                 const dateStr = getDateString(checkDate);
 
                 // Fetch 24 hours of data
+                // Fetch 24 hours of data
                 const targetUrl = `https://apis.data.go.kr/B552115/SmpWithForecastDemand/getSmpWithForecastDemand?serviceKey=${OPEN_API_KEY}&pageNo=1&numOfRows=24&dataType=JSON&searchDate=${dateStr}`;
-                // Usage of corsproxy.io: https://corsproxy.io/?url=...
-                const proxyUrl = `https://corsproxy.io/?` + encodeURIComponent(targetUrl);
 
                 try {
-                    const response = await fetch(proxyUrl);
-                    if (!response.ok) continue;
+                    const response = await fetchWithProxy(targetUrl);
+                    if (!response || !response.ok) continue;
 
                     const text = await response.text();
                     let data;
@@ -1616,19 +1636,18 @@
                 const dd = String(checkDate.getDate()).padStart(2, '0');
                 const dateStr = `${yyyy}${mm}${dd}`;
 
-                // REC API 호출 (searchDate, bzDd 둘 다 시도 - 파라미터 불확실성 해소용)
-                // numofRows=10 등으로 넉넉히 조회
+                // REC API 호출
                 const targetUrl = `https://apis.data.go.kr/B552115/RecMarketInfo2/getRecMarketInfo2?serviceKey=${OPEN_API_KEY}&pageNo=1&numOfRows=10&dataType=JSON&searchDate=${dateStr}&bzDd=${dateStr}`;
-                // Usage of corsproxy.io: https://corsproxy.io/?url=...
-                const proxyUrl = `https://corsproxy.io/?` + encodeURIComponent(targetUrl);
 
                 try {
-                    const response = await fetch(proxyUrl);
-                    if (!response.ok) continue; // 에러나면 다음 날짜로
+                    const response = await fetchWithProxy(targetUrl);
+                    if (!response || !response.ok) continue; // 에러나면 다음 날짜로
 
                     const text = await response.text();
                     let data;
                     try { data = JSON.parse(text); } catch (e) { continue; }
+
+                    if (data.response?.header?.resultCode !== '00') continue;
 
                     const items = data.response?.body?.items?.item;
 
