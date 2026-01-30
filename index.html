@@ -1067,26 +1067,107 @@
         <div class="feature-grid">
             <div class="feature-card">
                 <div class="feature-icon">📊</div>
-                <h3>발전용량산출</h3>
+                <h3>발전용량 산출</h3>
                 <p>실제 지적도를 사용하여 모듈을 배치하고, 발전용량을 정밀하게 산출합니다.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">💸</div>
                 <h3>캐쉬플로우 작성</h3>
-                <p>연간 시스템발전량과 경제성 변수를 고려하여 상세한 캐쉬플로우를 작성합니다.</p>
+                <p>연간 시스템발전량과 유지관리비,세금공제, 금리, SMP, REC가격 변동을 고려하여 상세한 캐쉬플로우를 작성합니다.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">📜</div>
                 <h3>발전사업허가</h3>
-                <p>복잡한 발전사업허가에 필요한 사업계획서와 배치도를 자동으로 생성합니다.</p>
+                <p>복잡한 발전사업허가에 필요한 사업계획서와 부속서류를 작성하고 사업준비를 시작합니다.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">☀️</div>
                 <h3>음영분석</h3>
-                <p>주변 건물을 가상 공간에 구현하여 음영으로 인한 발전 손실을 정확히 예측합니다.</p>
+                <p>주변 건물을 가상 공간에 구현하여 음영으로 인한 발전 손실을 정확히 계산하여 발전량을 산출합니다.</p>
             </div>
         </div>
     </main>
+
+    <!-- Video Section -->
+    <section id="demo-video" class="content-section"
+        style="background: linear-gradient(180deg, transparent, rgba(138, 43, 226, 0.05));">
+        <h2>Simulation Demos</h2>
+        <p>다양한 환경에서의 정밀한 가상발전소 시뮬레이션을 확인해보세요.</p>
+
+        <!-- Video Grid -->
+        <div class="video-grid" style="
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            width: 100%;
+            max-width: 1400px;
+            margin-top: 3rem;
+            padding: 0 1rem;
+        ">
+            <!-- Video 1 -->
+            <div class="video-card" style="
+                flex: 1 1 500px; 
+                max-width: 800px; 
+                background: var(--glass-bg); 
+                border: 1px solid var(--glass-border); 
+                border-radius: 20px; 
+                padding: 1.5rem; 
+                backdrop-filter: blur(10px);
+                box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+                transition: transform 0.3s ease;
+            " onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+                <h3 style="margin-bottom: 1rem; font-size: 1.4rem; color: #fff;">Case 1: 실제시공과 같은 배치</h3>
+                <div style="
+                    position: relative; 
+                    width: 100%; 
+                    padding-top: 56.25%; 
+                    border-radius: 12px; 
+                    overflow: hidden; 
+                    background: #000;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                    border: 1px solid rgba(255,255,255,0.1);
+                ">
+                    <video controls autoplay muted loop playsinline
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
+                        <source src="images/demo-simulation.mp4" type="video/mp4">
+                        브라우저가 비디오 태그를 지원하지 않습니다.
+                    </video>
+                </div>
+            </div>
+
+            <!-- Video 2 -->
+            <div class="video-card" style="
+                flex: 1 1 500px; 
+                max-width: 800px; 
+                background: var(--glass-bg); 
+                border: 1px solid var(--glass-border); 
+                border-radius: 20px; 
+                padding: 1.5rem; 
+                backdrop-filter: blur(10px);
+                box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+                transition: transform 0.3s ease;
+            " onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+                <h3 style="margin-bottom: 1rem; font-size: 1.4rem; color: #fff;">Case 2: 음영분석 시뮬레이션</h3>
+                <div style="
+                    position: relative; 
+                    width: 100%; 
+                    padding-top: 56.25%; 
+                    border-radius: 12px; 
+                    overflow: hidden; 
+                    background: #000;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                    border: 1px solid rgba(255,255,255,0.1);
+                ">
+                    <video controls autoplay muted loop playsinline
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
+                        <source src="images/demo-simulation2.mp4" type="video/mp4">
+                        브라우저가 비디오 태그를 지원하지 않습니다.
+                    </video>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- New Content Sections -->
     <section id="about" class="content-section">
@@ -1183,10 +1264,14 @@
     <section id="contact" class="content-section">
         <h2>Contact Us</h2>
         <p>Get in touch to start your own solar project today.</p>
-        <div style="margin-top: 2rem; font-size: 1.1rem; color: rgba(255, 255, 255, 0.9);">
-            <p style="margin-bottom: 0.5rem;">대표전화 : <span style="color: var(--accent-secondary);">0507-1475-9952</span>
-            </p>
-            <p>이메일주소 : <span style="color: var(--accent-secondary);">sk_rosesgun@naver.com</span></p>
+
+        <div class="feature-card" style="margin-top: 2rem; max-width: 400px; width: 100%; padding: 2.5rem;">
+            <div class="feature-icon" style="font-size: 3rem; margin-bottom: 1rem;">📧</div>
+            <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Email</h3>
+            <a href="mailto:sk_rosesgun@naver.com"
+                style="color: var(--accent-secondary); font-size: 1.2rem; font-weight: 600; text-decoration: none; transition: color 0.3s;">
+                sk_rosesgun@naver.com
+            </a>
         </div>
     </section>
 
@@ -1198,28 +1283,29 @@
             <!-- Updated form with validation and no default submission -->
             <form id="simulation-form" novalidate>
                 <div class="form-group" id="group-name">
-                    <label for="name">고객명 (Name)</label>
-                    <input type="text" id="name" name="name" placeholder="홍길동">
+                    <label for="input-name">고객명 (Name)</label>
+                    <input type="text" id="input-name" name="name" placeholder="홍길동">
                     <span class="error-message">고객님의 성함을 입력해 주세요.</span>
                 </div>
                 <div class="form-group" id="group-address">
-                    <label for="address">사업부지주소 (Site Address)</label>
-                    <input type="text" id="address" name="address" placeholder="서울시 강남구...">
+                    <label for="input-address">사업부지주소 (Site Address)</label>
+                    <input type="text" id="input-address" name="address" placeholder="서울시 강남구...">
                     <span class="error-message">사업 부지 주소를 자세히 적어주세요.</span>
                 </div>
                 <div class="form-group" id="group-email">
-                    <label for="email">이메일주소 (Email)</label>
-                    <input type="email" id="email" name="email" placeholder="example@email.com">
+                    <label for="input-email">이메일주소 (Email)</label>
+                    <input type="email" id="input-email" name="email" placeholder="example@email.com">
                     <span class="error-message">올바른 이메일 형식이 아닙니다.</span>
                 </div>
                 <div class="form-group" id="group-contact">
-                    <label for="contact">연락처 (Contact)</label>
-                    <input type="tel" id="contact" name="contact" placeholder="010-1234-5678">
+                    <label for="input-contact">연락처 (Contact)</label>
+                    <input type="tel" id="input-contact" name="contact" placeholder="010-1234-5678">
                     <span class="error-message">연락처를 입력해 주세요. (하이픈 포함 권장)</span>
                 </div>
                 <div class="modal-buttons">
                     <button type="button" class="btn-cancel" id="close-modal-btn">Cancel</button>
-                    <button type="submit" class="btn-submit" id="submit-btn">Submit</button>
+                    <button type="submit" class="btn-submit" id="submit-btn"
+                        onclick="handleFormSubmit(event)">Submit</button>
                 </div>
             </form>
         </div>
@@ -1319,89 +1405,134 @@
         });
 
         // Validation & Submission
-        form.addEventListener('submit', function (e) {
-            e.preventDefault();
+        // Defined globally to ensure access from HTML onclick
+        // Defined globally to ensure access from HTML onclick
+        // Defined globally to ensure access from HTML onclick
+        window.handleFormSubmit = function (e) {
+            try {
+                if (e) e.preventDefault();
 
-            let isValid = true;
+                // 헬퍼 함수: ID로 값을 안전하게 가져오기 (DOM 요소가 없거나 value가 없어도 에러 안 나게 처리)
+                const getValue = (id) => {
+                    const el = document.getElementById(id);
+                    // el이 존재하고 value 속성이 있으면 trim해서 반환, 아니면 빈 문자열
+                    return (el && el.value) ? el.value.trim() : '';
+                };
 
-            // 1. Name Validation
-            const name = document.getElementById('name');
-            const groupName = document.getElementById('group-name');
-            if (name.value.trim() === '') {
-                groupName.classList.add('error');
-                isValid = false;
-            } else {
-                groupName.classList.remove('error');
-            }
+                const setGroupError = (groupId, isError) => {
+                    const group = document.getElementById(groupId);
+                    if (group) {
+                        if (isError) group.classList.add('error');
+                        else group.classList.remove('error');
+                    }
+                };
 
-            // 2. Address Validation
-            const address = document.getElementById('address');
-            const groupAddress = document.getElementById('group-address');
-            if (address.value.trim() === '') {
-                groupAddress.classList.add('error');
-                isValid = false;
-            } else {
-                groupAddress.classList.remove('error');
-            }
+                const nameVal = getValue('input-name');
+                const addressVal = getValue('input-address');
+                const emailVal = getValue('input-email');
+                const contactVal = getValue('input-contact');
 
-            // 3. Email Validation
-            const email = document.getElementById('email');
-            const groupEmail = document.getElementById('group-email');
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email.value.trim())) {
-                groupEmail.classList.add('error');
-                isValid = false;
-            } else {
-                groupEmail.classList.remove('error');
-            }
+                let isValid = true;
+                let firstErrorId = null;
 
-            // 4. Contact Validation
-            const contact = document.getElementById('contact');
-            const groupContact = document.getElementById('group-contact');
-            if (contact.value.trim() === '') {
-                groupContact.classList.add('error');
-                isValid = false;
-            } else {
-                groupContact.classList.remove('error');
-            }
+                // 1. Name Validation
+                if (!nameVal) {
+                    setGroupError('group-name', true);
+                    isValid = false;
+                    if (!firstErrorId) firstErrorId = 'input-name';
+                } else {
+                    setGroupError('group-name', false);
+                }
 
-            if (isValid) {
+                // 2. Address Validation
+                if (!addressVal) {
+                    setGroupError('group-address', true);
+                    isValid = false;
+                    if (!firstErrorId) firstErrorId = 'input-address';
+                } else {
+                    setGroupError('group-address', false);
+                }
+
+                // 3. Email Validation
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailVal || !emailRegex.test(emailVal)) {
+                    setGroupError('group-email', true);
+                    isValid = false;
+                    if (!firstErrorId) firstErrorId = 'input-email';
+                } else {
+                    setGroupError('group-email', false);
+                }
+
+                // 4. Contact Validation
+                if (!contactVal) {
+                    setGroupError('group-contact', true);
+                    isValid = false;
+                    if (!firstErrorId) firstErrorId = 'input-contact';
+                } else {
+                    setGroupError('group-contact', false);
+                }
+
+                if (!isValid) {
+                    alert("입력하신 정보를 확인해 주세요. (붉은색 표시 항목)");
+                    if (firstErrorId) {
+                        const errEl = document.getElementById(firstErrorId);
+                        if (errEl) errEl.focus();
+                    }
+                    return;
+                }
+
+                // Check if EmailJS is loaded
+                if (typeof emailjs === 'undefined') {
+                    console.error("EmailJS SDK not loaded.");
+                    alert("이메일 전송 시스템(EmailJS)이 로드되지 않았습니다. \n\n잠시 후 다시 시도하거나, adblock이 켜져 있다면 해제해 주세요.");
+                    return;
+                }
+
+                const submitBtn = document.getElementById('submit-btn');
+                const form = document.getElementById('simulation-form');
+
                 // Change button state
-                const originalBtnText = submitBtn.innerText;
-                submitBtn.innerText = 'Sending...';
-                submitBtn.disabled = true;
+                let originalBtnText = 'Submit';
+                if (submitBtn) {
+                    originalBtnText = submitBtn.innerText;
+                    submitBtn.innerText = 'Sending...';
+                    submitBtn.disabled = true;
+                }
 
                 // Prepare EmailJS params
-                // Note: You need to set up an Email Template in EmailJS dashboard
-                // with variables: {{name}}, {{address}}, {{email}}, {{contact}}
                 const templateParams = {
-                    name: document.getElementById('name').value,      // 고객명 -> name
-                    address: document.getElementById('address').value, // 사업부지주소 -> address
-                    email: document.getElementById('email').value,     // 이메일주소 -> email
-                    contact: document.getElementById('contact').value, // 연락처 -> contact
+                    name: nameVal,
+                    address: addressVal,
+                    email: emailVal,
+                    contact: contactVal,
                     to_email: 'skseo@inms.co.kr'
                 };
 
                 // Send Email
-                // Replace 'YOUR_SERVICE_ID' and 'YOUR_TEMPLATE_ID' with actual IDs from EmailJS
                 emailjs.send('service_0qd6bdt', 'template_xfnkq7o', templateParams)
                     .then(function (response) {
                         alert('성공적으로 접수되었습니다! 곧 연락드리겠습니다.');
                         closeModal();
-                        form.reset();
+                        if (form) form.reset();
                     }, function (error) {
                         console.error('FAILED...', error);
-                        alert('전송에 실패했습니다. Public Key나 Service ID를 확인해주세요.\n(개발자 도구 콘솔에서 에러 로그 확인 가능)');
+                        alert('전송에 실패했습니다. (Error: ' + JSON.stringify(error) + ')');
                     })
                     .finally(() => {
-                        submitBtn.innerText = originalBtnText;
-                        submitBtn.disabled = false;
+                        if (submitBtn) {
+                            submitBtn.innerText = originalBtnText;
+                            submitBtn.disabled = false;
+                        }
                     });
-            }
-        });
 
-        // Remove error on input
-        const inputs = form.querySelectorAll('input');
+            } catch (err) {
+                console.error("Critical Error in Submit Handler:", err);
+                alert("제출 처리 중 오류가 발생했습니다: " + err.message);
+            }
+        };
+
+        // Remove error on input (Cleanup helper)
+        const inputs = document.querySelectorAll('.form-group input');
         inputs.forEach(input => {
             input.addEventListener('input', function () {
                 const group = this.closest('.form-group');
