@@ -819,6 +819,76 @@
             position: relative;
             z-index: 1;
         }
+
+        /* --- Lightbox Styles --- */
+        .lightbox-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .lightbox-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .lightbox-content {
+            position: relative;
+            width: 90%;
+            max-width: 1200px;
+            aspect-ratio: 16/9;
+            box-shadow: 0 0 50px rgba(138, 43, 226, 0.3);
+            border-radius: 12px;
+            overflow: hidden;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            background: #000;
+        }
+
+        .lightbox-overlay.active .lightbox-content {
+            transform: scale(1);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 2rem;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 10;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-close:hover {
+            background: var(--accent-secondary);
+            color: #000;
+        }
+
+        .video-preview:hover video {
+            opacity: 0.4;
+        }
     </style>
 </head>
 
@@ -1094,7 +1164,7 @@
         <h2>Simulation Demos</h2>
         <p>다양한 환경에서의 정밀한 가상발전소 시뮬레이션을 확인해보세요.</p>
 
-        <!-- Video Grid -->
+        <!-- Video Grid with Lightbox Trigger -->
         <div class="video-grid" style="
             display: flex;
             flex-wrap: wrap;
@@ -1108,17 +1178,25 @@
             <!-- Video 1 -->
             <div class="video-card" style="
                 flex: 1 1 500px; 
-                max-width: 800px; 
+                max-width: 700px; 
                 background: var(--glass-bg); 
                 border: 1px solid var(--glass-border); 
                 border-radius: 20px; 
-                padding: 1.5rem; 
+                padding: 1.8rem; 
                 backdrop-filter: blur(10px);
                 box-shadow: 0 10px 40px rgba(0,0,0,0.2);
                 transition: transform 0.3s ease;
+                display: flex;
+                flex-direction: column;
+                gap: 1.2rem;
             " onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
-                <h3 style="margin-bottom: 1rem; font-size: 1.4rem; color: #fff;">Case 1: 실제시공과 같은 배치</h3>
-                <div style="
+
+                <h3
+                    style="font-size: 1.4rem; color: #fff; margin: 0; padding-left: 0.5rem; border-left: 4px solid var(--accent-primary);">
+                    Case 1: 실제현장과 일치하는 모듈배치 시뮬레이션</h3>
+
+                <!-- Video Wrapper (Click Trigger) -->
+                <div class="video-preview" onclick="openLightbox('images/demo-simulation.mp4')" style="
                     position: relative; 
                     width: 100%; 
                     padding-top: 56.25%; 
@@ -1127,29 +1205,57 @@
                     background: #000;
                     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
                     border: 1px solid rgba(255,255,255,0.1);
+                    cursor: pointer;
                 ">
-                    <video controls autoplay muted loop playsinline
-                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
+                    <video muted loop autoplay playsinline style="
+                        position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; opacity: 0.8; transition: opacity 0.3s;
+                    ">
                         <source src="images/demo-simulation.mp4" type="video/mp4">
-                        브라우저가 비디오 태그를 지원하지 않습니다.
                     </video>
+
+                    <!-- Overlay Icon -->
+                    <div style="
+                        position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+                        width: 70px; height: 70px; background: rgba(0,0,0,0.4); border-radius: 50%;
+                        display: flex; align-items: center; justify-content: center;
+                        border: 2px solid rgba(255,255,255,0.6); backdrop-filter: blur(4px);
+                        transition: all 0.3s ease;
+                        z-index: 10;
+                    " onmouseover="this.parentElement.querySelector('video').style.opacity='0.4'; this.style.transform='translate(-50%, -50%) scale(1.1)'; this.style.background='rgba(138, 43, 226, 0.9)'; this.style.borderColor='transparent';"
+                        onmouseout="this.parentElement.querySelector('video').style.opacity='0.8'; this.style.transform='translate(-50%, -50%) scale(1)'; this.style.background='rgba(0,0,0,0.4)'; this.style.borderColor='rgba(255,255,255,0.6)';">
+                        <span style="color: white; font-size: 2rem; padding-left: 4px;">▶</span>
+                    </div>
                 </div>
+
+                <p
+                    style="color: rgba(255,255,255,0.8); line-height: 1.6; font-size: 1rem; margin: 0; font-weight: 300;">
+                    주변 건물의 높이와 건물형태를 모델링하여 최적의 모듈 배치를 통해 <strong style="color:var(--accent-secondary)">발전 효율을
+                        극대화</strong>할 수 있는 방안을 제시합니다.
+                </p>
             </div>
 
             <!-- Video 2 -->
             <div class="video-card" style="
                 flex: 1 1 500px; 
-                max-width: 800px; 
+                max-width: 700px; 
                 background: var(--glass-bg); 
                 border: 1px solid var(--glass-border); 
                 border-radius: 20px; 
-                padding: 1.5rem; 
+                padding: 1.8rem; 
                 backdrop-filter: blur(10px);
                 box-shadow: 0 10px 40px rgba(0,0,0,0.2);
                 transition: transform 0.3s ease;
+                 display: flex;
+                flex-direction: column;
+                gap: 1.2rem;
             " onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
-                <h3 style="margin-bottom: 1rem; font-size: 1.4rem; color: #fff;">Case 2: 음영분석 시뮬레이션</h3>
-                <div style="
+
+                <h3
+                    style="font-size: 1.4rem; color: #fff; margin: 0; padding-left: 0.5rem; border-left: 4px solid var(--accent-secondary);">
+                    Case 2: 음영분석 시뮬레이션</h3>
+
+                <!-- Video Wrapper (Click Trigger) -->
+                <div class="video-preview" onclick="openLightbox('images/demo-simulation2.mp4')" style="
                     position: relative; 
                     width: 100%; 
                     padding-top: 56.25%; 
@@ -1158,13 +1264,32 @@
                     background: #000;
                     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
                     border: 1px solid rgba(255,255,255,0.1);
+                    cursor: pointer;
                 ">
-                    <video controls autoplay muted loop playsinline
-                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
+                    <video muted loop autoplay playsinline style="
+                        position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; opacity: 0.8; transition: opacity 0.3s;
+                    ">
                         <source src="images/demo-simulation2.mp4" type="video/mp4">
-                        브라우저가 비디오 태그를 지원하지 않습니다.
                     </video>
+
+                    <!-- Overlay Icon -->
+                    <div style="
+                        position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+                        width: 70px; height: 70px; background: rgba(0,0,0,0.4); border-radius: 50%;
+                        display: flex; align-items: center; justify-content: center;
+                        border: 2px solid rgba(255,255,255,0.6); backdrop-filter: blur(4px);
+                        transition: all 0.3s ease;
+                    " onmouseover="this.parentElement.querySelector('video').style.opacity='0.4'; this.style.transform='translate(-50%, -50%) scale(1.1)'; this.style.background='rgba(0, 212, 255, 0.9)'; this.style.borderColor='transparent';"
+                        onmouseout="this.parentElement.querySelector('video').style.opacity='0.8'; this.style.transform='translate(-50%, -50%) scale(1)'; this.style.background='rgba(0,0,0,0.4)'; this.style.borderColor='rgba(255,255,255,0.6)';">
+                        <span style="color: white; font-size: 2rem; padding-left: 4px;">▶</span>
+                    </div>
                 </div>
+
+                <p
+                    style="color: rgba(255,255,255,0.8); line-height: 1.6; font-size: 1rem; margin: 0; font-weight: 300;">
+                    주변건물의 높이와 년간일조량,수평선정보,날씨정보 태양의 궤도를 고려한 음영시뮬레이션 설계를 통해 <strong
+                        style="color:var(--accent-secondary)">최적의 안정적인 수익모델</strong>을 창출합니다.
+                </p>
             </div>
         </div>
     </section>
@@ -1927,6 +2052,45 @@
 
         // 페이지 로드 시 실행
         fetchMarketData();
+    </script>
+    <!-- Lightbox Modal -->
+    <div class="lightbox-overlay" id="video-lightbox" onclick="closeLightbox()">
+        <div class="lightbox-content" onclick="event.stopPropagation()">
+            <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+            <video id="lightbox-video" controls class="lightbox-video"
+                style="width: 100%; height: 100%; object-fit: contain;">
+                <source src="" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+    <script>
+        // Lightbox Functions
+        function openLightbox(videoSrc) {
+            const lightbox = document.getElementById('video-lightbox');
+            const video = document.getElementById('lightbox-video');
+            video.src = videoSrc;
+            lightbox.classList.add('active');
+            // Slight delay to ensure transition works seamlessly
+            setTimeout(() => {
+                video.play().catch(e => console.log("Play interrupted or failed", e));
+            }, 100);
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('video-lightbox');
+            const video = document.getElementById('lightbox-video');
+            lightbox.classList.remove('active');
+            video.pause();
+            setTimeout(() => {
+                video.src = ""; // Stop buffering
+            }, 300);
+        }
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeLightbox();
+        });
     </script>
 </body>
 
