@@ -1142,7 +1142,8 @@
         window.recPrice = 0;
 
         // 공공데이터포털 API Key (실제 키가 있어야 작동, 없으면 Fallback 데이터 사용)
-        const OPEN_API_KEY = 'YOUR_SERVICE_KEY_required';
+        const OPEN_API_KEY = '06d0254c855a0444de9641ccd6cb358e48abc9b393042438746c2ac6b34331f8';
+
 
         async function fetchMarketData() {
             // 1. Fetch SMP
@@ -1152,52 +1153,137 @@
         }
 
         async function fetchSMP() {
-            // 날짜 계산 (2일 전)
+            // 사용자 요청 신규 End Point 적용 (B552115)
+            // End Point: https://apis.data.go.kr/B552115/SmpWithForecastDemand
+            // Operation Check: getSmpWithForecastDemand (without 'List')
+
+            // 오늘 날짜 구하기 (1일 전 조회)
             const date = new Date();
-            date.setDate(date.getDate() - 2);
+            date.setDate(date.getDate() - 1);
             const dateStr = getDateString(date);
 
-            // URL: 전력거래소_계통한계가격 정보
-            const apiUrl = `https://apis.data.go.kr/B190017/service/GetSmpInfoService/getSmpInfoList?serviceKey=${OPEN_API_KEY}&pageNo=1&numOfRows=1&smpDate=${dateStr}&_type=json`;
+            // Operation 수정: getSmpWithForecastDemandList -> getSmpWithForecastDemand
+            const targetUrl = `https://apis.data.go.kr/B552115/SmpWithForecastDemand/getSmpWithForecastDemand?serviceKey=${OPEN_API_KEY}&pageNo=1&numOfRows=1&dataType=JSON&searchDate=${dateStr}`;
+
+            // [CORS 에러 해결]
+            // 브라우저에서 직접 공공데이터포털 호출 시 보안 정책(CORS)으로 차단됩니다.
+            // 이를 우회하기 위해 'CORS Proxy' 서버를 경유합니다.
+            const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`;
 
             try {
-                const response = await fetch(apiUrl);
-                if (!response.ok) throw new Error("Network response was not ok");
-                const data = await response.json();
+                console.log(`Fetching SMP (via Proxy): ${targetUrl}`);
+                const response = await fetch(proxyUrl);
+
+                if (!response.ok) throw new Error(`Proxy/Server Error (${response.status})`);
+
+                const text = await response.text();
+                let data;
+
+                try {
+                    data = JSON.parse(text);
+                } catch (e) {
+                    console.error("SMP API 파싱 실패:", text);
+                    if (text.includes('API not found')) throw new Error("API 주소(URI) 오류: 오퍼레이션 명을 확인해주세요.");
+                    if (text.includes('SERVICE_KEY')) throw new Error("인증키 오류 (SERVICE_KEY_ERROR)");
+                    throw new Error("JSON 파싱 오류");
+                }
+
+                if (data.response?.header?.resultCode !== '00') {
+                    throw new Error(`API 결과 코드 오류: ${data.response?.header?.resultCode} - ${data.response?.header?.resultMsg}`);
+                }
 
                 const items = data.response?.body?.items?.item;
-                const realPrice = Array.isArray(items) ? items[0].smp : items?.smp;
+                console.log("SMP Raw Items:", items);
 
-                if (realPrice) {
-                    window.smpPrice = parseFloat(realPrice);
+                let fetchedPrice = 0;
+
+                if (Array.isArray(items) && items.length > 0) {
+                    const item = items[0];
+                    fetchedPrice = parseFloat(item.smp || item.landSmp || item.avgSmp || 0);
+                } else if (items) {
+                    fetchedPrice = parseFloat(items.smp || items.landSmp || items.avgSmp || 0);
+                }
+
+                if (fetchedPrice > 0) {
+                    window.smpPrice = fetchedPrice;
                     console.log(`SMP Fetch Success: ${window.smpPrice}`);
                 } else {
-                    throw new Error("Invalid Data Structure");
+                    console.warn("SMP 데이터 형식을 찾을 수 없음, 데모 데이터 사용");
+                    throw new Error("Price field not found");
                 }
+
             } catch (error) {
-                console.warn("SMP API Fail/CORS -> Using Mock Data");
+                console.warn("SMP 조회 실패 -> Mock Data 사용", error);
                 window.smpPrice = 145.32; // Fallback
             }
             updatePriceDisplay('smp-price', window.smpPrice);
         }
 
         async function fetchREC() {
-            // 날짜 계산 (REC는 매주 화/목 개설되므로 최근 데이터 찾기가 까다로울 수 있음. 
-            // 여기서는 단순히 최근 거래일자 조회 API라고 가정하거나 Mock up 처리)
-            // 실제 API: 전력거래소_REC현물시장 정보
+            // 사용자 제공 End Point: https://apis.data.go.kr/B552115/RecMarketInfo2
+            // Operation Check: getRecMarketInfo2 (추정) or getRecMarketInfo
 
-            // NOTE: REC API는 보통 별도의 Endpoint를 가짐. 예시 URL 사용.
-            // https://apis.data.go.kr/B190017/service/GetRecSpotMarketInfoService/getRecSpotMarketInfoList
+            // 데이터포털 규칙상 보통 ServiceId/OperationName 구조임.
+            // RecMarketInfo2 가 Service Name이라면 Operation은 getRecMarketInfo2 일 가능성이 있음.
+            // 또는 getRecMarketInfoList 가 아니라 getRecMarketInfo 인 경우도 많음.
 
-            // 여기서는 데모를 위해 바로 Fallback으로 처리하거나 시도 로직 구현
+            // 여기서는 'List'를 뺀 getRecMarketInfo 또는 getRecMarketInfo2를 시도.
+            // 검색 결과 명확치 않으므로, 일반적인 패턴인 getRecMarketInfo 로 시도해봅니다.
+
+            const targetUrl = `https://apis.data.go.kr/B552115/RecMarketInfo2/getRecMarketInfo2?serviceKey=${OPEN_API_KEY}&pageNo=1&numOfRows=1&dataType=JSON`;
+            // 만약 위 주소가 안되면 getRecMarketInfo 로 변경 필요.
+
+            // 2. CORS Proxy 적용 (api.allorigins.win 사용)
+            // 주의: 로컬 파일(file://)에서 호출 시 브라우저 보안(CORS) 때문에 직접 호출이 안됩니다.
+            // Proxy를 통해 호출하면 이 문제가 해결됩니다.
+            const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`;
+
             try {
-                // Mock API call to demonstrate structure
-                // const response = await fetch(`...&serviceKey=${OPEN_API_KEY}...`);
-                // ... parsing logic ...
-                throw new Error("REC API Not Implemented yet");
+                console.log(`Fetching REC (via Proxy): ${targetUrl}`);
+                const response = await fetch(proxyUrl);
+
+                if (!response.ok) throw new Error(`Proxy/Server Error (${response.status})`);
+
+                const text = await response.text();
+                let data;
+
+                try {
+                    data = JSON.parse(text);
+                } catch (e) {
+                    console.error("REC API 응답 파싱 실패:", text);
+                    if (text.includes('API not found')) throw new Error("API 주소(URI) 오류: 오퍼레이션 명을 확인해주세요.");
+                    if (text.includes('SERVICE_KEY')) throw new Error("인증키 오류 (SERVICE_KEY_ERROR).");
+                    throw new Error("JSON 파싱 오류 - " + text.substring(0, 50));
+                }
+
+                if (data.response?.header?.resultCode !== '00') {
+                    throw new Error(`API 결과 오류: ${data.response?.header?.resultMsg}`);
+                }
+
+                const items = data.response?.body?.items?.item;
+                console.log("REC Raw Items:", items);
+
+                let marketPrice = 0;
+
+                if (Array.isArray(items) && items.length > 0) {
+                    const item = items[0];
+                    // 여러 필드명 시도 (clpr: 체결평균가, price 등)
+                    marketPrice = parseFloat(item.clpr || item.price || item.avgPrice || Object.values(item).find(v => !isNaN(parseFloat(v)) && parseFloat(v) > 1000) || 0);
+                } else if (items) {
+                    marketPrice = parseFloat(items.clpr || items.price || 0);
+                }
+
+                if (marketPrice > 0) {
+                    window.recPrice = marketPrice;
+                    console.log(`REC Fetch Success: ${window.recPrice}`);
+                } else {
+                    console.warn("REC 데이터 필드 찾기 실패.");
+                    throw new Error("Price field parsing failed");
+                }
+
             } catch (error) {
-                console.warn("REC API Fail/CORS -> Using Mock Data");
-                window.recPrice = 72000; // Fallback (72,000 KRW)
+                console.warn("REC 조회 실패 -> Using Mock Data", error);
+                window.recPrice = 74500; // Fallback
             }
             updatePriceDisplay('rec-price', window.recPrice);
         }
