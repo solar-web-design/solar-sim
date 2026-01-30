@@ -466,22 +466,24 @@
             transition: color 0.3s;
         }
 
-        .btn-cancel:hover {
-            color: white;
-        }
-
-        .btn-submit {
-            padding: 0.8rem 2rem;
-            background: var(--accent-primary);
+        .cta-button {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #fff;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
             border: none;
             border-radius: 50px;
-            color: white;
-            font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
+            margin-top: 2rem;
+            position: relative;
+            z-index: 10;
         }
 
         .btn-submit:hover {
@@ -726,6 +728,75 @@
                 /* Becomes responsive on very small screens if needed, strictly 350px otherwise */
             }
         }
+
+        /* --- Feature Grid Styles (New) --- */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            width: 100%;
+            max-width: 1200px;
+            margin-top: 4rem;
+            padding: 0 1rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(138, 43, 226, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0;
+            background: linear-gradient(90deg, #fff, #bbb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-card p {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.6;
+            margin: 0;
+            position: relative;
+            z-index: 1;
+        }
     </style>
 </head>
 
@@ -759,50 +830,99 @@
 
         <!-- Market Price Dashboard -->
         <div class="market-dashboard"
-            style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem;">
+            style="display: flex; gap: 1rem; justify-content: center; align-items: stretch; flex-wrap: wrap; margin-bottom: 2rem;">
+
             <!-- SMP Display -->
             <div id="smp-display-container"
-                style="background: rgba(255, 255, 255, 0.1); padding: 1rem 1.5rem; border-radius: 12px; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); display: flex; align-items: center; gap: 1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); min-width: 280px;">
+                style="flex: 1; background: rgba(255, 255, 255, 0.1); padding: 1.5rem; border-radius: 12px; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 6px rgba(0,0,0,0.1); min-width: 220px;">
                 <div style="text-align: left;">
                     <span
-                        style="display: block; font-size: 0.8rem; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 1px;">SMP
-                        (Today)</span>
-                    <span id="smp-price" style="font-size: 1.5rem; font-weight: 700; color: #00d4ff;">Loading...</span>
-                    <span style="font-size: 0.9rem; color: rgba(255,255,255,0.5);"> KRW/kWh</span>
+                        style="display: block; font-size: 0.8rem; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">SMP</span>
+                    <div id="smp-date" style="font-size: 0.75rem; color: rgba(255,255,255,0.4); margin-bottom: 0.5rem;">
+                        -</div>
+                    <div style="display: flex; align-items: baseline; gap: 4px;">
+                        <span id="smp-price"
+                            style="font-size: 1.8rem; font-weight: 700; color: #00d4ff;">Loading...</span>
+                        <span style="font-size: 0.9rem; color: rgba(255,255,255,0.5);"> 원/kWh</span>
+                    </div>
                 </div>
-                <div style="font-size: 2rem; opacity: 0.2; margin-left: auto;">⚡</div>
+                <div style="font-size: 1.5rem; opacity: 0.2; align-self: flex-end;">⚡</div>
             </div>
 
             <!-- REC Display -->
             <div id="rec-display-container"
-                style="background: rgba(255, 255, 255, 0.1); padding: 1rem 1.5rem; border-radius: 12px; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); display: flex; align-items: center; gap: 1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); min-width: 280px;">
+                style="flex: 1; background: rgba(255, 255, 255, 0.1); padding: 1.5rem; border-radius: 12px; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 6px rgba(0,0,0,0.1); min-width: 220px;">
                 <div style="text-align: left;">
                     <span
-                        style="display: block; font-size: 0.8rem; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 1px;">REC
+                        style="display: block; font-size: 0.8rem; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">REC
                         (Spot)</span>
-                    <span id="rec-price" style="font-size: 1.5rem; font-weight: 700; color: #8a2be2;">Loading...</span>
-                    <span style="font-size: 0.9rem; color: rgba(255,255,255,0.5);"> KRW/REC</span>
+                    <div id="rec-date" style="font-size: 0.75rem; color: rgba(255,255,255,0.4); margin-bottom: 0.5rem;">
+                        -</div>
+                    <div style="display: flex; align-items: baseline; gap: 4px;">
+                        <span id="rec-price"
+                            style="font-size: 1.8rem; font-weight: 700; color: #8a2be2;">Loading...</span>
+                        <span style="font-size: 0.9rem; color: rgba(255,255,255,0.5);"> 원/REC</span>
+                    </div>
                 </div>
-                <div style="font-size: 2rem; opacity: 0.2; margin-left: auto;">🌿</div>
+                <div style="font-size: 1.5rem; opacity: 0.2; align-self: flex-end;">🌿</div>
             </div>
+
+            <!-- Profit Display -->
+            <div id="profit-display-container"
+                style="flex: 1; background: rgba(255, 255, 255, 0.1); padding: 1.5rem; border-radius: 12px; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); display: flex; flex-direction: column; justify-content: space-between; gap: 0.8rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); min-width: 240px;">
+
+                <div style="text-align: left;">
+                    <span
+                        style="font-size: 0.8rem; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 4px;">
+                        수익단가 (SMP+REC×가중치)
+                    </span>
+                    <div id="profit-date"
+                        style="font-size: 0.75rem; color: rgba(255,255,255,0.4); margin-bottom: 0.5rem;">-</div>
+
+                    <div style="display: flex; align-items: baseline; gap: 5px; margin-bottom: 0.5rem;">
+                        <span id="profit-price" style="font-size: 2rem; font-weight: 800; color: #fff;">0.00</span>
+                        <span style="font-size: 0.9rem; color: rgba(255,255,255,0.5);">원/kWh</span>
+                    </div>
+                </div>
+
+                <!-- Weight Selector -->
+                <div style="position: relative; width: 100%;">
+                    <select id="rec-weight-select" onchange="calculateProfit()"
+                        style="width: 100%; padding: 0.6rem; padding-right: 2rem; border-radius: 8px; border: 1px solid rgba(138, 43, 226, 0.3); background: rgba(138, 43, 226, 0.1); color: #fff; font-family: sans-serif; font-size: 0.85rem; cursor: pointer; appearance: none; -webkit-appearance: none;">
+                        <option value="0.5" style="background: #333;">REC 가중치 0.5</option>
+                        <option value="0.7" style="background: #333;">REC 가중치 0.7</option>
+                        <option value="1.0" style="background: #333;">REC 가중치 1.0</option>
+                        <option value="1.2" style="background: #333;">REC 가중치 1.2</option>
+                        <option value="1.5" style="background: #333;" selected>REC 가중치 1.5</option>
+                    </select>
+                    <div
+                        style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none; font-size: 0.8rem; color: #8a2be2;">
+                        ▼</div>
+                </div>
+            </div>
+
+            <!-- Start Simulation Button (Card Style) -->
+            <a href="#" class="cta-button" id="start-sim-btn"
+                style="flex: 0 0 auto; min-width: 180px; margin-top: 0; border-radius: 12px; display: flex; justify-content: center; align-items: center; text-align: center; line-height: 1.2; box-shadow: 0 4px 6px rgba(0,0,0,0.2);">
+                Start<br>Simulation
+            </a>
+
         </div>
 
-        <a href="#" class="cta-button" id="start-sim-btn">Start Simulation</a>
-
-        <div class="float-container">
-            <div class="card card-1" style="--r: -5deg">
+        <div class="feature-grid">
+            <div class="feature-card">
                 <h3>발전용량산출</h3>
                 <p>실제 지적도를 사용하여 모듈을 배치하고, 발전용량을 산출 합니다.</p>
             </div>
-            <div class="card card-2" style="--r: 2deg">
+            <div class="feature-card">
                 <h3>캐쉬플로우 작성</h3>
                 <p>연간 시스템발전량을 근거로 캐쉬플로우를 작성합니다.</p>
             </div>
-            <div class="card card-3" style="--r: -3deg">
+            <div class="feature-card">
                 <h3>발전사업허가</h3>
                 <p>발전사업허가에 필요한 사업계획서와 배치도를 작성하고 사업허가를 진행합니다.</p>
             </div>
-            <div class="card card-4" style="--r: 5deg">
+            <div class="feature-card">
                 <h3>음영분석</h3>
                 <p>발전소 주변건물을 가상공간에 설치하고 음영에 영향받는 발전량을 계산합니다.</p>
             </div>
@@ -978,13 +1098,6 @@
             cards.forEach((card, index) => {
                 const speed = (index + 1) * 0.5; // Different speeds for depth
                 card.style.transform = `translate(${x * speed}px, ${y * speed}px) rotate(${card.style.getPropertyValue('--r')})`;
-            });
-        });
-
-        // Reset positions on mouse leave
-        container.addEventListener('mouseleave', () => {
-            cards.forEach((card) => {
-                card.style.transform = `translate(0, 0) rotate(${card.style.getPropertyValue('--r')})`;
             });
         });
 
@@ -1207,83 +1320,121 @@
                 if (fetchedPrice > 0) {
                     window.smpPrice = fetchedPrice;
                     console.log(`SMP Fetch Success: ${window.smpPrice}`);
+                    // 날짜 표시 업데이트 (예: 2026.01.29)
+                    const dateDisplay = document.getElementById('smp-date');
+                    const profitDateDisplay = document.getElementById('profit-date');
+                    if (dateDisplay) {
+                        // dateStr: YYYYMMDD -> YYYY.MM.DD
+                        const formattedDate = `${dateStr.substring(0, 4)}.${dateStr.substring(4, 6)}.${dateStr.substring(6, 8)}`;
+                        dateDisplay.innerText = formattedDate;
+                        if (profitDateDisplay) profitDateDisplay.innerText = formattedDate;
+                    }
                 } else {
                     console.warn("SMP 데이터 형식을 찾을 수 없음, 데모 데이터 사용");
+                    window.smpPrice = 145.32; // Fallback
+                    const smpDateElem = document.getElementById('smp-date');
+                    if (smpDateElem) smpDateElem.innerText = "Demo Data";
+                    const profitDateElem = document.getElementById('profit-date');
+                    if (profitDateElem) profitDateElem.innerText = "Demo Data";
                     throw new Error("Price field not found");
                 }
 
             } catch (error) {
                 console.warn("SMP 조회 실패 -> Mock Data 사용", error);
                 window.smpPrice = 145.32; // Fallback
+                const smpDateElem = document.getElementById('smp-date');
+                if (smpDateElem) smpDateElem.innerText = "Demo Data";
+                const profitDateElem = document.getElementById('profit-date');
+                if (profitDateElem) profitDateElem.innerText = "Demo Data";
             }
             updatePriceDisplay('smp-price', window.smpPrice);
         }
 
         async function fetchREC() {
-            // 사용자 제공 End Point: https://apis.data.go.kr/B552115/RecMarketInfo2
-            // Operation Check: getRecMarketInfo2 (추정) or getRecMarketInfo
+            // [수정됨] REC는 매일 개장하지 않으므로(화/목 등), 오늘부터 역순으로 7일간 데이터를 조회하여 최신값을 찾습니다.
+            const maxDaysToCheck = 7;
+            let foundData = null;
+            let checkDate = new Date();
 
-            // 데이터포털 규칙상 보통 ServiceId/OperationName 구조임.
-            // RecMarketInfo2 가 Service Name이라면 Operation은 getRecMarketInfo2 일 가능성이 있음.
-            // 또는 getRecMarketInfoList 가 아니라 getRecMarketInfo 인 경우도 많음.
+            console.log("Fetching REC: Starting 7-day retrospective search...");
 
-            // 여기서는 'List'를 뺀 getRecMarketInfo 또는 getRecMarketInfo2를 시도.
-            // 검색 결과 명확치 않으므로, 일반적인 패턴인 getRecMarketInfo 로 시도해봅니다.
+            for (let i = 0; i < maxDaysToCheck; i++) {
+                // 날짜 포맷팅 (YYYYMMDD)
+                const yyyy = checkDate.getFullYear();
+                const mm = String(checkDate.getMonth() + 1).padStart(2, '0');
+                const dd = String(checkDate.getDate()).padStart(2, '0');
+                const dateStr = `${yyyy}${mm}${dd}`;
 
-            const targetUrl = `https://apis.data.go.kr/B552115/RecMarketInfo2/getRecMarketInfo2?serviceKey=${OPEN_API_KEY}&pageNo=1&numOfRows=1&dataType=JSON`;
-            // 만약 위 주소가 안되면 getRecMarketInfo 로 변경 필요.
-
-            // 2. CORS Proxy 적용 (api.allorigins.win 사용)
-            // 주의: 로컬 파일(file://)에서 호출 시 브라우저 보안(CORS) 때문에 직접 호출이 안됩니다.
-            // Proxy를 통해 호출하면 이 문제가 해결됩니다.
-            const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`;
-
-            try {
-                console.log(`Fetching REC (via Proxy): ${targetUrl}`);
-                const response = await fetch(proxyUrl);
-
-                if (!response.ok) throw new Error(`Proxy/Server Error (${response.status})`);
-
-                const text = await response.text();
-                let data;
+                // REC API 호출 (searchDate, bzDd 둘 다 시도 - 파라미터 불확실성 해소용)
+                // numofRows=10 등으로 넉넉히 조회
+                const targetUrl = `https://apis.data.go.kr/B552115/RecMarketInfo2/getRecMarketInfo2?serviceKey=${OPEN_API_KEY}&pageNo=1&numOfRows=10&dataType=JSON&searchDate=${dateStr}&bzDd=${dateStr}`;
+                const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`;
 
                 try {
-                    data = JSON.parse(text);
+                    const response = await fetch(proxyUrl);
+                    if (!response.ok) continue; // 에러나면 다음 날짜로
+
+                    const text = await response.text();
+                    let data;
+                    try { data = JSON.parse(text); } catch (e) { continue; }
+
+                    const items = data.response?.body?.items?.item;
+
+                    if (Array.isArray(items) && items.length > 0) {
+                        foundData = items[0]; // 데이터 발견!
+                        console.log(`REC Data Found on ${dateStr}:`, foundData);
+                        break;
+                    } else if (items && !Array.isArray(items)) {
+                        // 단일 객체인 경우
+                        foundData = items;
+                        console.log(`REC Data Found on ${dateStr}:`, foundData);
+                        break;
+                    }
                 } catch (e) {
-                    console.error("REC API 응답 파싱 실패:", text);
-                    if (text.includes('API not found')) throw new Error("API 주소(URI) 오류: 오퍼레이션 명을 확인해주세요.");
-                    if (text.includes('SERVICE_KEY')) throw new Error("인증키 오류 (SERVICE_KEY_ERROR).");
-                    throw new Error("JSON 파싱 오류 - " + text.substring(0, 50));
+                    // 네트워크 에러 등은 무시하고 계속 검색
                 }
 
-                if (data.response?.header?.resultCode !== '00') {
-                    throw new Error(`API 결과 오류: ${data.response?.header?.resultMsg}`);
+                // 하루 전으로 이동
+                checkDate.setDate(checkDate.getDate() - 1);
+            }
+
+            let marketPrice = 0;
+
+            if (foundData) {
+                // 스크린샷 기반 필드 우선순위: landAvgPrc(육지평균) > clsPrc(종가)
+                // 2026년 기준 7만원대 예상
+                const p1 = parseFloat(foundData.landAvgPrc);
+                const p2 = parseFloat(foundData.landWghtAvrgPrc);
+                const p3 = parseFloat(foundData.clsPrc);
+
+                if (!isNaN(p1) && p1 > 0) marketPrice = p1;
+                else if (!isNaN(p2) && p2 > 0) marketPrice = p2;
+                else if (!isNaN(p3) && p3 > 0) marketPrice = p3;
+                else {
+                    // 스마트 서치 (fallback)
+                    const potentialKey = Object.keys(foundData).find(k => k.toLowerCase().includes('avg') || k.toLowerCase().includes('clsprc'));
+                    if (potentialKey) marketPrice = parseFloat(foundData[potentialKey]);
                 }
 
-                const items = data.response?.body?.items?.item;
-                console.log("REC Raw Items:", items);
-
-                let marketPrice = 0;
-
-                if (Array.isArray(items) && items.length > 0) {
-                    const item = items[0];
-                    // 여러 필드명 시도 (clpr: 체결평균가, price 등)
-                    marketPrice = parseFloat(item.clpr || item.price || item.avgPrice || Object.values(item).find(v => !isNaN(parseFloat(v)) && parseFloat(v) > 1000) || 0);
-                } else if (items) {
-                    marketPrice = parseFloat(items.clpr || items.price || 0);
+                // 날짜 업데이트
+                const recDateDisplay = document.getElementById('rec-date');
+                if (recDateDisplay && foundData.bzDd) {
+                    const bzDd = String(foundData.bzDd);
+                    // 20260129 -> 2026.01.29
+                    if (bzDd.length === 8) {
+                        recDateDisplay.innerText = `${bzDd.substring(0, 4)}.${bzDd.substring(4, 6)}.${bzDd.substring(6, 8)}`;
+                    }
                 }
+            }
 
-                if (marketPrice > 0) {
-                    window.recPrice = marketPrice;
-                    console.log(`REC Fetch Success: ${window.recPrice}`);
-                } else {
-                    console.warn("REC 데이터 필드 찾기 실패.");
-                    throw new Error("Price field parsing failed");
-                }
-
-            } catch (error) {
-                console.warn("REC 조회 실패 -> Using Mock Data", error);
-                window.recPrice = 74500; // Fallback
+            if (marketPrice > 0 && marketPrice < 200000) {
+                window.recPrice = marketPrice;
+                console.log(`REC Final Price: ${marketPrice}`);
+            } else {
+                console.warn("REC 최신 데이터를 찾지 못했습니다. (Fallback 사용)");
+                window.recPrice = 71645; // Fallback
+                const recDateElem = document.getElementById('rec-date');
+                if (recDateElem) recDateElem.innerText = "Demo Data";
             }
             updatePriceDisplay('rec-price', window.recPrice);
         }
@@ -1298,6 +1449,9 @@
         function updatePriceDisplay(elementId, targetPrice) {
             const display = document.getElementById(elementId);
             if (!display) return;
+
+            // Recalculate profit whenever prices update
+            calculateProfit();
 
             let currentVal = 0;
             const duration = 1500;
@@ -1328,6 +1482,22 @@
                 }
             }
             requestAnimationFrame(animate);
+        }
+
+        function calculateProfit() {
+            if (window.smpPrice && window.recPrice) {
+                // Dropdown에서 선택된 가중치 값 가져오기
+                const weightSelect = document.getElementById('rec-weight-select');
+                const weight = parseFloat(weightSelect ? weightSelect.value : 1.5);
+
+                // Formula: SMP + (REC / 1000 * weight)
+                const total = window.smpPrice + (window.recPrice / 1000 * weight);
+
+                const display = document.getElementById('profit-price');
+                if (display) {
+                    display.innerText = total.toFixed(2);
+                }
+            }
         }
 
         // 페이지 로드 시 실행
